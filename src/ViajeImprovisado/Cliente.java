@@ -28,7 +28,8 @@ public class Cliente {
 	}
 
 	public String toString() {
-		return "Cliente [apellido=" + apellido + ", nombre=" + nombre + ", dni=" + dni + ", contrasenia=" + contrasenia
+		return "Cliente [Apellido y Nombre= " + this.apellido + ", " + this.nombre +
+				"\nDni= " + dni + "\nContrasenia= " + contrasenia
 				+ "]";
 	}
 	
