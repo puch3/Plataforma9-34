@@ -23,6 +23,7 @@ public class Omnibus {
 	}
 
 	public String toString() {
-		return "Omnibus [nombre=" + nombre + ", asientos=" + asientos + "]";
+		return "Omnibus [Nombre= " + nombre +
+									"\nAsientos= " + asientos + "]\n";
 	}
 }
