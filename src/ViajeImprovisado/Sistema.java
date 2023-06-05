@@ -7,10 +7,21 @@ import java.time.chrono.ChronoLocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
 public class Sistema {
     private ArrayList<Cliente> clientes;
     private ArrayList<Viaje> viajes;
-    public void iniciarSesion() {
+
+
+    public Sistema(){
+        this.usuarios = new ArrayList<Cliente>();
+        this.viajes = new ArrayList<Viaje>();
+    }
+
+    public void iniciarSesion(){
 
         Scanner sc = new Scanner(System.in);
 
@@ -93,8 +104,4 @@ public class Sistema {
             //...
         }
     }
-
-
-
-    
 
