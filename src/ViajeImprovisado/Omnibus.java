@@ -1,5 +1,7 @@
 package ViajeImprovisado;
 
+import java.util.ArrayList;
+
 public class Omnibus {
 	private String nombre;
 	private String empresa;
@@ -27,8 +29,8 @@ public class Omnibus {
 		return nombre;
 	}
 
-	public int getAsientos() {
-		return asientos;
+	public int getCapacidad() {
+		return asientos.size();
 	}
 
 	public String toString() {

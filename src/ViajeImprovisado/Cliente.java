@@ -16,7 +16,7 @@ public class Cliente {
 		this.dni = dni;
 		this.email = email;
 		this.contrasenia = contrasenia;
-		this.suscripto = false;
+		this.suscripcion = null;
 	}
 
 	public String getApellido() {
@@ -35,7 +35,13 @@ public class Cliente {
 		return this.contrasenia;
 	}
 
-	public boolean isSuscripto(){return this.suscripcion != null;}
+	public boolean isSuscripto(Viaje viaje){
+		if (this.suscripcion.getOrigen().equals(viaje.getOrigen()) &&
+					this.suscripcion.getDestino().equals(viaje.getDestino()))
+			return true;
+		else
+			return false;
+	}
 
 
 	//Suscribir pasajero a  Viajes Improvisados
@@ -49,16 +55,16 @@ public class Cliente {
 	}
 	//Suscripcion cargando origen y destino
 	public void suscribirse(String origen, String destino){
-		SuscripcionViajeImprovisado s = new SuscripcionViajeImprovisado(String origen, String destino)
+		SuscripcionViajeImprovisado s = new SuscripcionViajeImprovisado(origen, destino);
 		this.suscripcion = s;
 
 	}
 
 	public void recibirNotificacion(Viaje viaje){
-		String mensaje = "Hola" + this.getNombre() + ", en 6 horas sale el colectivo " +
+		String mensaje = ("Hola" + this.getNombre() + ", en 6 horas sale el colectivo " +
 						viaje.getOmnibus() + " de la terminal de " + viaje.getOrigen() + " con destino a "
-						+ viaje.getDestino() ".\n" + "No te pierdas la oportunidad de acceder a este viaje" +
-						" con un 50% de descuento!";
+						+ viaje.getDestino() + ".\n" + "No te pierdas la oportunidad de acceder a este viaje" +
+						" con un 50% de descuento!");
 
 		//Codigo para enviar el email
 	}

@@ -24,6 +24,35 @@ public class Viaje {
 	
 	public String toString() {
 		return "Viaje [fecha=" + fecha + ", origen=" + origen + ", destino=" + destino + ", empresa=" + this.omnibus.getEmpresa()
-				+ ", precio=" + precio + ", asientos disponibles=" + (this.omnibus.getAsientos()-this.pasajeros.size()) + "]";
+				+ ", precio=" + precio + ", asientos disponibles=" + (this.omnibus.getCapacidad()-this.pasajeros.size()) + "]";
 	}
+
+	public LocalDateTime getFecha() {
+		return fecha;
+	}
+
+	public String getOrigen() {
+		return origen;
+	}
+
+	public String getDestino() {
+		return destino;
+	}
+
+	public ArrayList<String> getParadasIntermedias() {
+		return paradasIntermedias;
+	}
+
+	public double getPrecio() {
+		return precio;
+	}
+
+	public Omnibus getOmnibus() {
+		return omnibus;
+	}
+
+	public ArrayList<Cliente> getPasajeros() {
+		return pasajeros;
+	}
+
 }
