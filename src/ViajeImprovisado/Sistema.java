@@ -6,7 +6,6 @@ import java.time.Period;
 import java.time.chrono.ChronoLocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -102,6 +101,10 @@ public class Sistema {
         public void mostrarMenu(){
             //Desarrollar opciones de menu
             //...
+        }
+
+        public static void main(String[] args){
+            System.out.println("hola mundo");
         }
     }
 
