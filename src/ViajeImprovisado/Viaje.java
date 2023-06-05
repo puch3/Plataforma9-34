@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Viaje {
 	private LocalDateTime fecha;
 	private String origen, destino;
+	private ArrayList<String> paradasIntermedias;
 	private double precio;
 	private Omnibus omnibus;
 	private ArrayList<Cliente> pasajeros;
@@ -15,6 +16,7 @@ public class Viaje {
 		this.fecha = fecha;
 		this.origen = origen;
 		this.destino = destino;
+		this.paradasIntermedias = new ArrayList<String>();
 		this.precio = precio;
 		this.omnibus = omnibus;
 		this.pasajeros = new ArrayList<Cliente>();

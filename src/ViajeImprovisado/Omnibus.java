@@ -1,13 +1,22 @@
 package ViajeImprovisado;
 
 public class Omnibus {
-	private String nombre, empresa;
-	private int asientos;
+	private String nombre;
+	private String empresa;
+	private ArrayList<Asiento> asientos;
 	
 	public Omnibus(String nombre, int asientos) {
 		super();
 		this.nombre = nombre;
-		this.asientos = asientos;
+		this.asientos = new ArrayList<>();
+	}
+
+	public void addAsiento(Asiento a){
+		asientos.add(a);
+	}
+
+	public void removeAsiento(Asiento a){
+		asientos.remove(a);
 	}
 	
 	public String getEmpresa() {

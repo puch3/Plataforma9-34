@@ -8,6 +8,7 @@ public class Asiento {
     //cargar asiento ocupado directamente
     public Asiento(Cliente pasajero, int numeroDeAsiento){
         this.pasajero = pasajero;
+
         if (numeroDeAsiento >= 0){
             this.numeroDeAsiento = numeroDeAsiento;
         }

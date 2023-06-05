@@ -5,17 +5,17 @@ public class Cliente {
 	private String nombre;
 	private String dni;
 	private String email;
-	private String claveAcceso;
-	private boolean suscripto;
+	private String contrasenia;
+	private SuscripcionViajeImprovisado suscripcion;
 
 
-	public Cliente(String apellido, String nombre, String dni, String email, String calveAcceso) {
+	public Cliente(String apellido, String nombre, String dni, String email, String contrasenia) {
 		super();
 		this.apellido = apellido;
 		this.nombre = nombre;
 		this.dni = dni;
 		this.email = email;
-		this.claveAcceso = claveAcceso;
+		this.contrasenia = contrasenia;
 		this.suscripto = false;
 	}
 
@@ -31,13 +31,28 @@ public class Cliente {
 		return this.dni;
 	}
 
-	public String getClaveAcceso() {
-		return this.claveAcceso;
+	public String getContrasenia() {
+		return this.contrasenia;
 	}
 
-	public boolean isSuscripto(){return this.suscripto;}
+	public boolean isSuscripto(){return this.suscripcion != null;}
 
-	public void suscribirse(){this.suscripto = true;}
+
+	//Suscribir pasajero a  Viajes Improvisados
+	//Suscripcion desde la compra de un pasaje
+	public void suscribirse(Viaje v){
+
+		String o = v.getOrigen();
+		String d = v.getDestino();
+
+		suscribirse(o, d);
+	}
+	//Suscripcion cargando origen y destino
+	public void suscribirse(String origen, String destino){
+		SuscripcionViajeImprovisado s = new SuscripcionViajeImprovisado(String origen, String destino)
+		this.suscripcion = s;
+
+	}
 
 	public void recibirNotificacion(Viaje viaje){
 		String mensaje = "Hola" + this.getNombre() + ", en 6 horas sale el colectivo " +
@@ -46,6 +61,10 @@ public class Cliente {
 						" con un 50% de descuento!";
 
 		//Codigo para enviar el email
+	}
+
+	public void comprarPasaje(Viaje viaje){
+		//Codigo para comprar pasaje
 	}
 
 	public String toString() {
