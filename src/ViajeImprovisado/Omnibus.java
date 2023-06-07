@@ -5,10 +5,17 @@ public class Omnibus {
 	private String empresa;
 	private ArrayList<Asiento> asientos;
 	
-	public Omnibus(String nombre, int asientos) {
+	public Omnibus(String nombre, int capacidad) {
 		super();
 		this.nombre = nombre;
-		this.asientos = new ArrayList<>();
+
+		ArrayList<Asiento> aux = new ArrayList<>();
+		for(int i = 0; i < capacidad; i++){
+			Asiento a = new Asiento(i+1);
+			aux.add(a);
+		}
+
+		this.asientos = aux;
 	}
 
 	public void addAsiento(Asiento a){

@@ -117,13 +117,14 @@ public class Sistema {
         }
         public void notificarViaje(Viaje viaje){
 
-            if(viaje.faltaMenosHoras(this.cantHorasViajeImprovisado) &&
-                    viaje.getLugaresDisponibles() > this.asientosVaciosViajeImpro){
-
+            if( (viaje.faltaMenosHoras(this.cantHorasViajeImprovisado) ) &&
+                    (viaje.getLugaresDisponibles() > this.asientosVaciosViajeImpro)){
+                
                 for (int i = 0; i< pasajeros.size(); i++){
-                    if (pasajeros.get(i).isSuscripto(viaje))
-                        System.out.println("Notificar cliente");
+                    if (pasajeros.get(i).isSuscripto(viaje)) {
+                        System.out.println("Notificar pasajero");
                         pasajeros.get(i).recibirNotificacion(viaje);
+                    }
                 }
             }
         }
