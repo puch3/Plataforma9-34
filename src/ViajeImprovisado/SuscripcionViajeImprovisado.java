@@ -1,4 +1,3 @@
-package ViajeImprovisado;
 
 public class SuscripcionViajeImprovisado {
     private String origen,destino;

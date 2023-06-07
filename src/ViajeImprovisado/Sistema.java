@@ -1,22 +1,19 @@
-package ViajeImprovisado;
-import java.sql.SQLOutput;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.Period;
-import java.time.chrono.ChronoLocalDateTime;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class Sistema {
-    private ArrayList<Cliente> clientes;
+    private ArrayList<Pasajero> pasajeros;
     private ArrayList<Viaje> viajes;
+
+    private final static int cantHorasViajeImprovisado = 6;
+    private final static int asientosVaciosViajeImpro = 20;
 
 
     public Sistema(){
-        this.usuarios = new ArrayList<Cliente>();
+        this.pasajeros = new ArrayList<Pasajero>();
         this.viajes = new ArrayList<Viaje>();
     }
 
@@ -30,22 +27,38 @@ public class Sistema {
         System.out.println("Ingrese su contraseña: ");
         String contrasena = sc.nextLine();
 
-        Cliente cliente = buscarCliente(dni, contrasena);
+        Pasajero pasajero = buscarCliente(dni, contrasena);
 
-        if (cliente != null) {
-            System.out.println("¡Bienvenido " + cliente.getNombre() + " " + cliente.getApellido());
+        if (pasajero != null) {
+            System.out.println("¡Bienvenido " + pasajero.getNombre() + " " + pasajero.getApellido());
         }
         else
-            System.out.println("Inicio de sesion fallido, vuelva a ingresarse");
+            System.out.println("Inicio de sesion fallido");
     }
 
-        private Cliente buscarCliente(String dni, String contrasena){
-            for (int i=0; i<clientes.size();i++){
-                if (clientes.get(i).getDni().equals(dni) && clientes.get(i).getContrasenia().equals(contrasena))
-                    return clientes.get(i);
+        private Pasajero buscarCliente(String dni, String contrasena){
+            for (int i = 0; i< pasajeros.size(); i++){
+                if (pasajeros.get(i).getDni().equals(dni) && pasajeros.get(i).getClaveAcceso().equals(contrasena))
+                    return pasajeros.get(i);
             }
             return null;
         }
+
+
+        //Metodo de testing
+    public void addPasajero(Pasajero p){
+        pasajeros.add(p);
+    }
+
+    public void addViaje(Viaje v){
+        viajes.add(v);
+    }
+
+    public void removeViaje(Viaje v){
+    //    viajes.remove(v);   //EQUALS VIAJE
+    }
+
+
         public void registrarse(){
             Scanner sc1 = new Scanner(System.in);
             System.out.println("Ingresar nombre: ");
@@ -54,57 +67,105 @@ public class Sistema {
             String apellido = sc1.nextLine();
             System.out.println("Ingresar dni: ");
             String dni = sc1.nextLine();
-            System.out.println("Ingresar mail: ");
-            String mail = sc1.nextLine();
-            System.out.println("Ingresar password: ");
-            String password = sc1.nextLine();
-            if (validarPassword(password)){
-                Cliente cliente = new Cliente(nombre,apellido,dni,mail,password);
-                clientes.add(cliente);
+
+
+            boolean existe = false;
+            int i = 0;
+            while((i < pasajeros.size()) && (!existe)){
+
+                if(pasajeros.get(i).getDni().equals(dni)){
+                    System.out.println("El dni ya se encuentra registrado!");
+                    existe = true;
+                }
+                i++;
             }
-            else
-                System.out.println("La password no cumple con los requisitos");
+
+            if(!existe) {
+                System.out.println("Ingresar mail: ");
+                String mail = sc1.nextLine();
+                System.out.println("Ingresar password: ");
+                String password = sc1.nextLine();
+
+
+                if (validarPassword(password)) {
+                    Pasajero pasajero = new Pasajero(nombre, apellido, dni, mail, password);
+                    pasajeros.add(pasajero);
+                } else
+                    System.out.println("La password no cumple con los requisitos");
+            }else{
+                //Si el dni existe, lo manda a iniciar sesion.
+                iniciarSesion();
+            }
         }
         public boolean validarPassword(String pass){
             //logica para validar una password
             return true;
         }
-        public void comprarPasaje(Cliente comprador){
+        public void comprarPasaje(Pasajero comprador){
             //logica para seleccionar y comprar un pasaje
             //cuando este el viaje comprado
             //dar la opcion de suscribirse con ese viaje
             //...
         }
-        public void suscribirseViajesImprovisados(Cliente cliente){
+        public void suscribirseViajesImprovisados(Pasajero pasajero){
             Scanner sc1 = new Scanner(System.in);
             System.out.println("Ingresar Origen");
             String origen = sc1.nextLine();
             System.out.println("Ingresar Destino");
             String destino = sc1.nextLine();
-            cliente.suscribirse(origen,destino);
+            pasajero.suscribirse(origen,destino);
         }
         public void notificarViaje(Viaje viaje){
-            LocalDateTime fechaActual = LocalDateTime.now();
-            for (int i=0;i< viajes.size();i++){
-                Duration period = Duration.between(viaje.getFecha(),fechaActual);
-                if (period.getSeconds()<21600){
-                    notificarSuscripto(viaje);
+
+            if(viaje.faltaMenosHoras(this.cantHorasViajeImprovisado) &&
+                    viaje.getLugaresDisponibles() > this.asientosVaciosViajeImpro){
+
+                for (int i = 0; i< pasajeros.size(); i++){
+                    if (pasajeros.get(i).isSuscripto(viaje))
+                        System.out.println("Notificar cliente");
+                        pasajeros.get(i).recibirNotificacion(viaje);
                 }
             }
         }
-        public void notificarSuscripto(Viaje viaje){
-            for (int i=0;i<clientes.size();i++){
-                if (clientes.get(i).isSuscripto(viaje))
-                    System.out.println("Notificar cliente");
-            }
-        }
+
         public void mostrarMenu(){
             //Desarrollar opciones de menu
             //...
         }
 
         public static void main(String[] args){
-            System.out.println("hola mundo");
+
+            Pasajero p1 = new Pasajero("Perez", "Juan", "100", "", "clave1");
+            Pasajero p2 = new Pasajero("Garcia", "Jose", "101", "", "clave1");
+            Pasajero p3 = new Pasajero("Rodriguez", "Pedro", "100", "", "clave1");
+            Pasajero p4 = new Pasajero("Ramires", "Lucas", "100", "", "clave1");
+            Pasajero p5 = new Pasajero("Zarate", "Monica", "100", "", "clave1");
+
+            LocalDateTime f1 = LocalDateTime.of(2023,06,7,15,30);
+            Omnibus o1 = new Omnibus("C1", 35);
+
+
+            Viaje v1 = new Viaje(f1, "Tandil", "Azul", 3850,o1);
+
+            Sistema plataforma = new Sistema();
+
+            plataforma.addViaje(v1);
+
+            plataforma.addPasajero(p1);
+            plataforma.addPasajero(p2);
+            plataforma.addPasajero(p3);
+            plataforma.addPasajero(p4);
+            plataforma.addPasajero(p5);
+
+            //plataforma.registrarse();
+            //plataforma.iniciarSesion();
+
+            plataforma.suscribirseViajesImprovisados(p1);
+
+            plataforma.notificarViaje(v1);
+
+
+
         }
     }
 

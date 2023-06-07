@@ -1,5 +1,3 @@
-package ViajeImprovisado;
-
 import java.util.ArrayList;
 
 public class Omnibus {

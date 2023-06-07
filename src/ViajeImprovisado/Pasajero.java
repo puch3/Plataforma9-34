@@ -1,21 +1,20 @@
-package ViajeImprovisado;
 
-public class Cliente {
+public class Pasajero {
 	private String apellido;
 	private String nombre;
 	private String dni;
 	private String email;
-	private String contrasenia;
+	private String claveAcceso;
 	private SuscripcionViajeImprovisado suscripcion;
 
 
-	public Cliente(String apellido, String nombre, String dni, String email, String contrasenia) {
+	public Pasajero(String apellido, String nombre, String dni, String email, String claveAcceso) {
 		super();
 		this.apellido = apellido;
 		this.nombre = nombre;
 		this.dni = dni;
 		this.email = email;
-		this.contrasenia = contrasenia;
+		this.claveAcceso = claveAcceso;
 		this.suscripcion = null;
 	}
 
@@ -31,16 +30,20 @@ public class Cliente {
 		return this.dni;
 	}
 
-	public String getContrasenia() {
-		return this.contrasenia;
+	public String getClaveAcceso() {
+		return this.claveAcceso;
 	}
 
 	public boolean isSuscripto(Viaje viaje){
-		if (this.suscripcion.getOrigen().equals(viaje.getOrigen()) &&
+		if(this.suscripcion != null) {
+			if (this.suscripcion.getOrigen().equals(viaje.getOrigen()) &&
 					this.suscripcion.getDestino().equals(viaje.getDestino()))
-			return true;
-		else
+				return true;
+			else
+				return false;
+		} else{
 			return false;
+		}
 	}
 
 
@@ -66,7 +69,7 @@ public class Cliente {
 						+ viaje.getDestino() + ".\n" + "No te pierdas la oportunidad de acceder a este viaje" +
 						" con un 50% de descuento!");
 
-		//Codigo para enviar el email
+				//Codigo para enviar el email
 	}
 
 	public void comprarPasaje(Viaje viaje){
@@ -76,7 +79,7 @@ public class Cliente {
 	public String toString() {
 		return "Cliente [Apellido y Nombre= " + this.apellido + ", " + this.nombre +
 				"\nDni= " + dni +
-				"\nContrasenia= " + contrasenia	+ "]\n";
+				"\nContrasenia= " + claveAcceso	+ "]\n";
 	}
 	
 	

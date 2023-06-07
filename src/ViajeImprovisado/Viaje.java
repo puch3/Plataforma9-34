@@ -1,5 +1,6 @@
-package ViajeImprovisado;
 
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -9,9 +10,9 @@ public class Viaje {
 	private ArrayList<String> paradasIntermedias;
 	private double precio;
 	private Omnibus omnibus;
-	private ArrayList<Cliente> pasajeros;
+	private ArrayList<Pasajero> pasajeros;
 	
-	public Viaje(LocalDateTime fecha, String origen, String destino, String empresa, double precio, Omnibus omnibus) {
+	public Viaje(LocalDateTime fecha, String origen, String destino, double precio, Omnibus omnibus) {
 		super();
 		this.fecha = fecha;
 		this.origen = origen;
@@ -19,7 +20,7 @@ public class Viaje {
 		this.paradasIntermedias = new ArrayList<String>();
 		this.precio = precio;
 		this.omnibus = omnibus;
-		this.pasajeros = new ArrayList<Cliente>();
+		this.pasajeros = new ArrayList<Pasajero>();
 	}
 	
 	public String toString() {
@@ -51,8 +52,22 @@ public class Viaje {
 		return omnibus;
 	}
 
-	public ArrayList<Cliente> getPasajeros() {
+	public ArrayList<Pasajero> getPasajeros() {
 		return pasajeros;
+	}
+
+	public boolean faltaMenosHoras(int horas){
+		LocalDateTime ahora = LocalDateTime.now();
+
+		Duration aux = Duration.between(ahora, this.fecha);
+
+		long horasEntremedio = aux.getSeconds();
+
+		return (horasEntremedio/3600) <= horas;
+	}
+
+	public int getLugaresDisponibles(){
+		return this.omnibus.getCapacidad() - this.pasajeros.size();
 	}
 
 }

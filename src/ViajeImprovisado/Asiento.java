@@ -1,12 +1,11 @@
-package ViajeImprovisado;
 public class Asiento {
 
-    private Cliente pasajero;
+    private Pasajero pasajero;
 
     private int numeroDeAsiento;
 
     //cargar asiento ocupado directamente
-    public Asiento(Cliente pasajero, int numeroDeAsiento){
+    public Asiento(Pasajero pasajero, int numeroDeAsiento){
         this.pasajero = pasajero;
 
         if (numeroDeAsiento >= 0){
@@ -20,11 +19,11 @@ public class Asiento {
         this.numeroDeAsiento = numeroDeAsiento;
     }
 
-    public Cliente getPasajero() {
+    public Pasajero getPasajero() {
         return this.pasajero;
     }
 
-    public void setPasajero(Cliente pasajero) {
+    public void setPasajero(Pasajero pasajero) {
         if (!estaOcupado()) {
             this.pasajero = pasajero;
         } else {
