@@ -3,15 +3,29 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Viaje {
 	private LocalDateTime fecha;
 	private String origen, destino;
-	private ArrayList<String> paradasIntermedias;
+	private ArrayList<String> paradasIntermedias; //ojo
 	private double precio;
 	private Omnibus omnibus;
 	private ArrayList<Pasajero> pasajeros;
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Viaje viaje = (Viaje) o;
+		return Double.compare(viaje.precio, precio) == 0 && Objects.equals(fecha, viaje.fecha) && Objects.equals(origen, viaje.origen) && Objects.equals(destino, viaje.destino) && Objects.equals(paradasIntermedias, viaje.paradasIntermedias) && Objects.equals(omnibus, viaje.omnibus) && Objects.equals(pasajeros, viaje.pasajeros);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(fecha, origen, destino, paradasIntermedias, precio, omnibus, pasajeros);
+	}
+
 	public Viaje(LocalDateTime fecha, String origen, String destino, double precio, Omnibus omnibus) {
 		super();
 		this.fecha = fecha;

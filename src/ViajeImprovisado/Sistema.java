@@ -55,7 +55,7 @@ public class Sistema {
     }
 
     public void removeViaje(Viaje v){
-    //    viajes.remove(v);   //EQUALS VIAJE
+        viajes.remove(v);   //PROBAR
     }
 
 
@@ -90,6 +90,9 @@ public class Sistema {
                 if (validarPassword(password)) {
                     Pasajero pasajero = new Pasajero(nombre, apellido, dni, mail, password);
                     pasajeros.add(pasajero);
+
+                    //dar opcion a asociar tarjeta
+
                 } else
                     System.out.println("La password no cumple con los requisitos");
             }else{
@@ -107,6 +110,7 @@ public class Sistema {
             //dar la opcion de suscribirse con ese viaje
             //...
         }
+
         public void suscribirseViajesImprovisados(Pasajero pasajero){
             Scanner sc1 = new Scanner(System.in);
             System.out.println("Ingresar Origen");
@@ -119,13 +123,18 @@ public class Sistema {
 
             if( (viaje.faltaMenosHoras(this.cantHorasViajeImprovisado) ) &&
                     (viaje.getLugaresDisponibles() > this.asientosVaciosViajeImpro)){
-                
+
                 for (int i = 0; i< pasajeros.size(); i++){
                     if (pasajeros.get(i).isSuscripto(viaje)) {
-                        System.out.println("Notificar pasajero");
+                        System.out.println("Notificar pasajero " + pasajeros.get(i).getNombre());
                         pasajeros.get(i).recibirNotificacion(viaje);
                     }
+
                 }
+                //Opcion fachera  de programacion funcional
+                //pasajeros.stream()
+                //        .filter(x -> x.isSuscripto(viaje))
+                //        .forEach(x ->x.recibirNotificacion(viaje));
             }
         }
 
