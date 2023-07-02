@@ -2,7 +2,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Sistema {
     private ArrayList<Pasajero> pasajeros;
