@@ -119,11 +119,34 @@ public class Sistema {
             LocalDate fecha = LocalDate.of(anio, mes, dia);
             ArrayList<Viaje> coincidentes = mostrarViajesCoincidentes(origen, destino, fecha);
             ArrayList<Viaje> listaParaSeleccion = filtrarViajesCoincidentes(coincidentes);
+            Viaje viajeSeleccionado = seleccionarViaje(listaParaSeleccion);
+            ArrayList<Asiento> asientosSeleccionados = seleccionarAsientos(viajeSeleccionado);//para ocuparlos si la compra es concretada
             //logica para seleccionar y comprar un pasaje
             //cuando este el viaje comprado
             //dar la opcion de suscribirse con ese viaje
             //...
         }
+    public Viaje seleccionarViaje(ArrayList<Viaje> listaParaSeleccion){
+        for (int i = 0; i < listaParaSeleccion.size(); i++){
+            Viaje aux = listaParaSeleccion.get(i);
+            System.out.println((i+1)+". Empresa: "+aux.getEmpresa()+
+                    ", Hora de salida: "+aux.getHoraSalida()+
+                    ", Hora de llegada:P "+aux.getHoraLlegada());
+        }
+        System.out.println("Seleccione un viaje (ingrese el numero)");
+        Scanner sc1 = new Scanner(System.in);
+        int nroViaje = Integer.parseInt(sc1.nextLine());
+        return listaParaSeleccion.get(nroViaje-1);
+    }
+    public ArrayList<Asiento> seleccionarAsientos(Viaje viajeS) {
+        Omnibus omnibusAux = viajeS.getOmnibus();
+        ArrayList<Asiento> asientosSeleccionados = null;
+        if (omnibusAux != null) {
+            omnibusAux.mostrarAsientos();
+            asientosSeleccionados = omnibusAux.seleccionarAsientos();
+        }
+        return asientosSeleccionados;
+    }
         public ArrayList<Viaje> mostrarViajesCoincidentes(String origen, String destino, LocalDate fecha){
             ArrayList<Viaje> coincidentes = new ArrayList<Viaje>();
             for (int i = 0; i < viajes.size(); i++){
