@@ -140,7 +140,7 @@ public class Sistema {
             Viaje aux = listaParaSeleccion.get(i);
             System.out.println((i+1)+". Empresa: "+aux.getEmpresa()+
                     ", Hora de salida: "+aux.getHoraSalida()+
-                    ", Hora de llegada:P "+aux.getHoraLlegada());
+                    ", Hora de llegada: "+aux.getHoraLlegada());
         }
         System.out.println("Seleccione un viaje (ingrese el numero)");
         Scanner sc1 = new Scanner(System.in);
