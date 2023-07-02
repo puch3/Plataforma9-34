@@ -27,9 +27,10 @@ public class Viaje {
 		return Objects.hash(fecha, origen, destino, paradasIntermedias, precio, omnibus, pasajeros);
 	}
 
-	public Viaje(LocalDateTime fecha, String origen, String destino, double precio, Omnibus omnibus) {
+	public Viaje(LocalDateTime fecha,LocalDateTime fecha2, String origen, String destino, double precio, Omnibus omnibus) {
 		super();
 		this.fecha = fecha;
+		this.fechaLlegada =fecha2;
 		this.origen = origen;
 		this.destino = destino;
 		this.paradasIntermedias = new ArrayList<String>();
