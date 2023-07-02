@@ -12,6 +12,7 @@ public class Viaje {
 	private double precio;
 	private Omnibus omnibus;
 	private ArrayList<Pasajero> pasajeros;
+	private LocalDateTime fechaLlegada;
 
 	@Override
 	public boolean equals(Object o) {
@@ -92,7 +93,7 @@ public class Viaje {
 	        f.getYear() == this.fecha.getYear())) && (this.getLugaresDisponibles()>0);
 	}
 	public String getEmpresa(){
-		this.omnibus.getEmpresa();
+		return this.omnibus.getEmpresa();
 	}
 	public String getHoraSalida(){
 		return this.fecha.getHour() + ":" + this.fecha.getMinute();
