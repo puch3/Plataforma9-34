@@ -6,10 +6,10 @@ public class CriterioPrecio implements Criterio{
     public boolean seCumple(Viaje v){
         return ((precio == 0.0)||(v.getPrecio() < precio));
     }
-    public String getPrecio() {
+    public double getPrecio() {
         return precio;
     }
-    public void setPrecio(String precio) {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 }
