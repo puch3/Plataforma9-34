@@ -145,7 +145,12 @@ public class Sistema {
         System.out.println("Seleccione un viaje (ingrese el numero)");
         Scanner sc1 = new Scanner(System.in);
         int nroViaje = Integer.parseInt(sc1.nextLine());
-        return listaParaSeleccion.get(nroViaje-1);
+        if (nroViaje <= listaParaSeleccion.size()) {
+            return listaParaSeleccion.get(nroViaje - 1);
+        }else {
+            System.out.println("El numero de viaje es invalido");
+        }
+        return null;
     }
     public static ArrayList<Asiento> SeleccionarAsientos(Viaje viajeS) {
         Omnibus omnibusAux = viajeS.getOmnibus();
