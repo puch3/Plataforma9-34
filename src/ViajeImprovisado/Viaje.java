@@ -83,5 +83,21 @@ public class Viaje {
 	public int getLugaresDisponibles(){
 		return this.omnibus.getCapacidad() - this.pasajeros.size();
 	}
-
+	public boolean viajeCoincide(String o, String d, LocalDate f){
+		return (this.origen.equals(o) && (this.destino.equals(d)||this.paradasIntermedias.contains(d))&& 
+		//si se permite el abordaje de pasajeros en las paradas intermedias, ademas de la descarga, se debera tambien incluir los siguiente:
+		//this.paradasIntermedias.contains(o) && (this.destino.equals(d))
+		(f.getDayOfMonth() == this.fecha.getDayOfMonth() &&
+	        f.getMonthValue() == this.fecha.getMonthValue() &&
+	        f.getYear() == this.fecha.getYear())) && (this.getLugaresDisponibles()>0);
+	}
+	public String getEmpresa(){
+		this.omnibus.getEmpresa();
+	}
+	public String getHoraSalida(){
+		return this.fecha.getHour() + ":" + this.fecha.getMinute();
+	}
+	public String getHoraLlegada(){
+		return this.fechaLlegada.getHour() + ":" + this.fechaLlegada.getMinute();
+	}
 }
