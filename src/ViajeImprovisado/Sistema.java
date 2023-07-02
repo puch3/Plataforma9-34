@@ -181,7 +181,7 @@ public class Sistema {
             System.out.println("Desea ver los viajes disponibles de una empresa especifica?(s/n)");
             String rta = sc1.nextLine();
             if (rta.equals("s")){
-                 System.out.println("Ingrese la empresa deseada");
+                System.out.println("Ingrese la empresa deseada");
                 empresa = sc1.nextLine();
             }
             Criterio c1 = new CriterioEmpresa(empresa);
@@ -198,10 +198,10 @@ public class Sistema {
                 rta = sc2.nextLine();
             if (rta.equals("s")){
                  System.out.println("Ingrese la hora de salida mas temprana. (HH:mm)");
-                 String horaIngresada = sc1.nextLine();
+                 String horaIngresada = sc2.nextLine();
                  horaSalida1 = LocalTime.parse(horaIngresada);
                  System.out.println("Ingrese la hora de salida mas tardia. (HH:mm)");
-                 horaIngresada = sc1.nextLine();
+                 horaIngresada = sc2.nextLine();
                  horaSalida2 = LocalTime.parse(horaIngresada);
             }
             Criterio c3 = new CriterioHoraSalida(horaSalida1,horaSalida2);
@@ -210,10 +210,10 @@ public class Sistema {
                 rta = sc2.nextLine();
             if (rta.equals("s")){
                  System.out.println("Ingrese la hora de llegada mas temprana. (HH:mm)");
-                 String horaIngresada = sc1.nextLine();
+                 String horaIngresada = sc2.nextLine();
                  horaLlegada1 = LocalTime.parse(horaIngresada);
                  System.out.println("Ingrese la hora de llegada mas tardia. (HH:mm)");
-                 horaIngresada = sc1.nextLine();
+                 horaIngresada = sc2.nextLine();
                  horaLlegada2 = LocalTime.parse(horaIngresada);
             }
             Criterio c4 = new CriterioHoraLlegada(horaLlegada1,horaLlegada2);
