@@ -34,7 +34,11 @@ public class Omnibus {
 	public String getEmpresa() {
 		return empresa;
 	}
-
+	
+	public void setEmpresa(String empresaNueva){
+		this.empresa = empresaNueva;
+	}
+	
 	public String getNombre() {
 		return nombre;
 	}
