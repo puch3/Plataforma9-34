@@ -193,9 +193,9 @@ public class Sistema {
                  precio = sc1.nextDouble();
             }
             Criterio c2 = new CriterioPrecio(precio);
-
+            Scanner sc2 = new Scanner(System.in);
             System.out.println("Desea ver los viajes disponibles en los que su hora de salida este dentro de un margen especifico?(s/n)");
-                rta = sc1.nextLine();
+                rta = sc2.nextLine();
             if (rta.equals("s")){
                  System.out.println("Ingrese la hora de salida mas temprana. (HH:mm)");
                  String horaIngresada = sc1.nextLine();
@@ -207,12 +207,12 @@ public class Sistema {
             Criterio c3 = new CriterioHoraSalida(horaSalida1,horaSalida2);
 
             System.out.println("Desea ver los viajes disponibles en los que su hora de llegada este dentro de un margen especifico?(s/n)");
-                rta = sc1.nextLine();
+                rta = sc2.nextLine();
             if (rta.equals("s")){
-                 System.out.println("Ingrese la hora de salida mas temprana. (HH:mm)");
+                 System.out.println("Ingrese la hora de llegada mas temprana. (HH:mm)");
                  String horaIngresada = sc1.nextLine();
                  horaLlegada1 = LocalTime.parse(horaIngresada);
-                 System.out.println("Ingrese la hora de salida mas tardia. (HH:mm)");
+                 System.out.println("Ingrese la hora de llegada mas tardia. (HH:mm)");
                  horaIngresada = sc1.nextLine();
                  horaLlegada2 = LocalTime.parse(horaIngresada);
             }
@@ -269,7 +269,7 @@ public class Sistema {
             Pasajero p5 = new Pasajero("Zarate", "Monica", "100", "", "clave1");
 
             LocalDateTime f1 = LocalDateTime.of(2023,06,7,15,30);
-            LocalDateTime f2 = LocalDateTime.of(2023,06,7,19,00);
+            LocalDateTime f2 = LocalDateTime.of(2023,06,7,19, 10);
             Omnibus o1 = new Omnibus("C1", 35);
             o1.setEmpresa("EmpresaX");
 
