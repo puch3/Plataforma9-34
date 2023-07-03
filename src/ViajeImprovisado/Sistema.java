@@ -151,7 +151,7 @@ public class Sistema {
         //dar la opcion de suscribirse con ese viaje
         //...
     }
-    public ArrayList<Pasaje> armarPasajes(ArrayList<Asiento> asientos, Viaje viaje){
+    public ArrayList<Pasaje> armarPasajes(ArrayList<Asiento> asientos, Viaje viaje,Pasajero comprador){
         Scanner sc1 = new Scanner(System.in);
         String dniIngresado = null;
         ArrayList<Pasaje> pasajes = new ArrayList<>();
@@ -161,6 +161,12 @@ public class Sistema {
                 dniIngresado = sc1.nextLine();
                 Pasaje nuevoPasaje = this.VerificarDni(dniIngresado);
                 nuevoPasaje.completarDatos(asientos.get(i).getNumeroDeAsiento(),viaje.getPrecio(), viaje.getOrigen(),viaje.getFecha(),viaje.getEmpresa());
+                pasajes.add(nuevoPasaje);
+            }
+        }else{
+            if(asientos.size() == 1) {
+                Pasaje nuevoPasaje = this.VerificarDni(comprador.getDni());
+                nuevoPasaje.completarDatos(asientos.get(0).getNumeroDeAsiento(),viaje.getPrecio(), viaje.getOrigen(),viaje.getFecha(),viaje.getEmpresa());
                 pasajes.add(nuevoPasaje);
             }
         }
