@@ -2,11 +2,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
 public class Sistema {
-    private static ArrayList<Pasajero> pasajeros;
+    private static ArrayList<Usuario> pasajeros;
     private static ArrayList<Viaje> viajes;
 
     private final static int cantHorasViajeImprovisado = 6;
@@ -14,7 +15,7 @@ public class Sistema {
 
 
     public Sistema(){
-        this.pasajeros = new ArrayList<Pasajero>();
+        this.pasajeros = new ArrayList<Usuario>();
         this.viajes = new ArrayList<Viaje>();
     }
 
@@ -47,7 +48,7 @@ public class Sistema {
 
 
         //Metodo de testing
-    public void addPasajero(Pasajero p){
+    public void addPasajero(Usuario p){
         pasajeros.add(p);
     }
 
@@ -87,7 +88,7 @@ public class Sistema {
             String password = sc1.nextLine();
 
             if (validarPassword(password)) {
-                Pasajero pasajero = new Pasajero(nombre, apellido, dni, mail, password);
+                Usuario pasajero = new Usuario(apellido, nombre, dni, mail, password);
                 pasajeros.add(pasajero);
 
                  //dar opcion a asociar tarjeta
@@ -143,16 +144,20 @@ public class Sistema {
 
         if (coincidentes.size() > 0) {
             Viaje viaje = seleccionarViaje(coincidentes);
-            ArrayList<Asiento> asientos = seleccionarAsientos(viaje);
 
-            //ya se pude pasar a confirmar la compra, marcar los aientos como ocupados
-            if(compraConfirmada()) {
-                //se hace el pago
-                //se da opcion a suscribir usuario
-            }else {
-                //desocupar asientos
-                for(int i=0; i<asientos.size(); i++){
-                    asientos.get(i).desocuparAsiento();
+            if(viaje != null){
+                ArrayList<Asiento> asientos = seleccionarAsientos(viaje);
+
+                asignarAsientos(asientos, comprador);
+                //ya se pude pasar a confirmar la compra, marcar los aientos como ocupados
+                if (compraConfirmada()) {
+                    //se hace el pago
+                    //se da opcion a suscribir usuario
+                } else {
+                    //desocupar asientos
+                    for (int i = 0; i < asientos.size(); i++) {
+                        asientos.get(i).desocuparAsiento();
+                    }
                 }
             }
         }else{System.out.println("No se encontraron viajes coincidentes");}
@@ -165,47 +170,34 @@ public class Sistema {
         return true;
     }
 
-    public ArrayList<Pasaje> armarPasajes(ArrayList<Asiento> asientos, Viaje viaje,Pasajero comprador){
-        Scanner sc1 = new Scanner(System.in);
-        String dniIngresado = null;
-        ArrayList<Pasaje> pasajes = new ArrayList<>();
+    public void asignarAsientos(ArrayList<Asiento> asientos, Pasajero comprador){
+        Scanner sc1 =new Scanner(System.in);
 
-        if (asientos.size() > 1){
-            for (int i = 0; i < asientos.size();i++) {
+        asientos.get(0).setPasajero(comprador); //Se asigna el primer asiento seleccionado al usuario que esta logeado
+
+        if(asientos.size() > 1){
+            for(int i=1; i<asientos.size(); i++){
                 System.out.println("Ingrese el documento para el asiento nro: " + asientos.get(i).getNumeroDeAsiento());
-                dniIngresado = sc1.nextLine();
-                Pasaje nuevoPasaje = this.VerificarDni(dniIngresado);
-                nuevoPasaje.completarDatos(asientos.get(i).getNumeroDeAsiento(),viaje.getPrecio(), viaje.getOrigen(),viaje.getFecha(),viaje.getEmpresa());
-                pasajes.add(nuevoPasaje);
-            }
-        }else{
-            if(asientos.size() == 1) {
-                Pasaje nuevoPasaje = this.VerificarDni(comprador.getDni());
-                nuevoPasaje.completarDatos(asientos.get(0).getNumeroDeAsiento(),viaje.getPrecio(), viaje.getOrigen(),viaje.getFecha(),viaje.getEmpresa());
-                pasajes.add(nuevoPasaje);
+                String dniIngresado = sc1.nextLine();
+                asientos.get(i).setPasajero(verificarDni(dniIngresado));
             }
         }
-        return pasajes;
     }
-    public Pasaje VerificarDni(String dniIngresado){
+
+    public Pasajero verificarDni(String dniIngresado){
 
         for (int i = 0; i < pasajeros.size(); i++) {
-            Pasajero pasajeroAux = pasajeros.get(i);
-            if (pasajeroAux.getDni().equals(dniIngresado)) {
-                Pasaje pasajeNuevo = new Pasaje(pasajeroAux.getNombre(), pasajeroAux.getApellido());
-                //notificar pasajero.
-                return pasajeNuevo;
-            }
+           if( pasajeros.get(i).getDni().equals(dniIngresado) )
+               return pasajeros.get(i);
         }
         Scanner sc1 = new Scanner(System.in);
-        String nombre = null;
-        String apellido = null;
+
         System.out.println("Ingrese el nombre del nuevo Pasajero ");
-        nombre = sc1.nextLine();
+        String nombre = sc1.nextLine();
         System.out.println("Ingrese el apellido del nuevo Pasajero ");
-        apellido = sc1.nextLine();
-        Pasaje pasajeNuevo = new Pasaje(nombre,apellido);
-        return pasajeNuevo;
+        String apellido = sc1.nextLine();
+        Pasajero pasajeroNuevo = new Pasajero(nombre,apellido, dniIngresado);
+        return pasajeroNuevo;
     }
     public Criterio armarFiltro(){
         Criterio salida = new CriterioTrue();
@@ -251,19 +243,30 @@ public class Sistema {
         return salida;
     }
     
-    public Viaje seleccionarViaje(ArrayList<Viaje> listaParaSeleccion){
-        for (int i = 0; i < listaParaSeleccion.size(); i++){
+    public Viaje seleccionarViaje(ArrayList<Viaje> listaParaSeleccion) {
+        for (int i = 0; i < listaParaSeleccion.size(); i++) {
             Viaje aux = listaParaSeleccion.get(i);
-            System.out.println((i+1) + ". " + listaParaSeleccion.get(i));
+            System.out.println((i + 1) + ". " + listaParaSeleccion.get(i));
         }
         System.out.println("Seleccione un viaje (ingrese el numero)");
         Scanner sc1 = new Scanner(System.in);
-        int nroViaje = Integer.parseInt(sc1.nextLine());
-        if (nroViaje <= listaParaSeleccion.size()) {
-            return listaParaSeleccion.get(nroViaje - 1);
-        }else {
-            System.out.println("El numero de viaje es invalido");
+
+
+        try {
+            int nroViaje = Integer.parseInt(sc1.nextLine());
+            if (nroViaje <= listaParaSeleccion.size()) {
+                return listaParaSeleccion.get(nroViaje - 1);
+            } else {
+                System.out.println("El numero de viaje es invalido");
+            }
+            return null;
+        } catch (InputMismatchException ex) {
+            System.out.println("Debe ingresar un numero de viaje valido");
+            //seleccionarViaje(listaParaSeleccion);
+        } catch (NumberFormatException exeption){
+            System.out.println("Debe ingresar un numero");
         }
+
         return null;
     }
     public ArrayList<Asiento> seleccionarAsientos(Viaje viajeS) {
@@ -283,18 +286,12 @@ public class Sistema {
                 Viaje aux = viajes.get(i);
                 if(aux.viajeCoincide(origen, destino, fecha) && cc.seCumple(aux)){
                     salida.add(aux);
-
-                    //Muestra resultado **TEMPORAL**
-                    System.out.println("Empresa: "+aux.getEmpresa()+
-                                    ", Hora de salida: "+aux.getHoraSalida()+
-                                    ", Hora de llegada: "+aux.getHoraLlegada() + "\n");
-
                 }
             }
             return salida;
         }
 
-        public void suscribirseViajesImprovisados(Pasajero pasajero){
+        public void suscribirseViajesImprovisados(Usuario pasajero){
             Scanner sc1 = new Scanner(System.in);
             System.out.println("Ingresar Origen");
             String origen = sc1.nextLine();
@@ -328,11 +325,11 @@ public class Sistema {
 
         public static void main(String[] args) {
 
-            Pasajero p1 = new Pasajero("Perez", "Juan", "100", "", "clave1");
-            Pasajero p2 = new Pasajero("Garcia", "Jose", "101", "", "clave1");
-            Pasajero p3 = new Pasajero("Rodriguez", "Pedro", "100", "", "clave1");
-            Pasajero p4 = new Pasajero("Ramires", "Lucas", "100", "", "clave1");
-            Pasajero p5 = new Pasajero("Zarate", "Monica", "100", "", "clave1");
+            Usuario p1 = new Usuario("Perez", "Juan", "100", "", "clave1");
+            Usuario p2 = new Usuario("Garcia", "Jose", "101", "", "clave1");
+            Usuario p3 = new Usuario("Rodriguez", "Pedro", "102", "", "clave1");
+            Usuario p4 = new Usuario("Ramires", "Lucas", "103", "", "clave1");
+            Usuario p5 = new Usuario("Zarate", "Monica", "104", "", "clave1");
 
             LocalDateTime f1 = LocalDateTime.of(2023, 06, 7, 15, 30);
             LocalDateTime f2 = LocalDateTime.of(2023, 06, 7, 19, 10);
@@ -354,10 +351,11 @@ public class Sistema {
             //plataforma.registrarse();
             //plataforma.iniciarSesion();
 
-            plataforma.suscribirseViajesImprovisados(p1);
+            //plataforma.suscribirseViajesImprovisados(p1);
 
             //plataforma.notificarViaje(v1);
             plataforma.ComprarPasaje(p3);
+            plataforma.ComprarPasaje(p1);
         }
     }
 

@@ -87,9 +87,10 @@ public class Omnibus {
 
 		for (String numero : numerosAsientos) {
 			int numeroAsiento = Integer.parseInt(numero);
-			if ((numeroAsiento)<=asientos.size()) {
+			if ( (numeroAsiento <= asientos.size()) && !(asientos.get(numeroAsiento-1).estaOcupado()) ) {
 				asientosSeleccionados.add(asientos.get(numeroAsiento - 1));
-			}else{System.out.println("Numero de Asiento invalido");}
+			}else{
+				System.out.println("Numero de Asiento invalido(" + numeroAsiento +")");}
 		}
 		return asientosSeleccionados;
 	}
