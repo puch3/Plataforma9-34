@@ -138,16 +138,12 @@ public class Sistema {
 
         Criterio cc = armarFiltro();
 
-        ArrayList<Viaje> coincidentes = MostrarViajesCoincidentes(datos.get(0), datos.get(1), fecha, cc);
+        ArrayList<Viaje> coincidentes = mostrarViajesCoincidentes(datos.get(0), datos.get(1), fecha, cc);
 
         if (coincidentes.size() > 0) {
-            ArrayList<Viaje> listaParaSeleccion = FiltrarViajesCoincidentes(coincidentes);
-            if (listaParaSeleccion.size() > 0) {
-                Viaje viajeSeleccionado = SeleccionarViaje(listaParaSeleccion);
-                if (viajeSeleccionado != null) {
-                    ArrayList<Asiento> asientosSeleccionados = SeleccionarAsientos(viajeSeleccionado);//para ocuparlos si la compra es concretada
-                }
-            }
+            System.out.println(coincidentes);
+            Viaje viaje = seleccionarViaje(coincidentes);
+            ArrayList<Asiento> asientos = seleccionarAsientos(viaje);
         }else{System.out.println("No se encontraron viajes coincidentes");}
 
         //logica para seleccionar y comprar un pasaje
@@ -159,10 +155,48 @@ public class Sistema {
     public Criterio armarFiltro(){
         Criterio salida = new CriterioTrue();
 
+        Scanner sc1 = new Scanner(System.in);
+
+        System.out.println("Desea ver los viajes disponibles de una empresa especifica?(s/n)");
+        if (sc1.nextLine().equals("s")){
+            System.out.println("Ingrese la empresa deseada: ");
+            salida = new CriterioAnd(salida, new CriterioEmpresa(sc1.nextLine()));
+        }
+
+        System.out.println("Desea ver los viajes disponibles menor a algun costo especifico?(s/n)");
+        if (sc1.nextLine().equals("s")){
+            System.out.println("Ingrese el monto maximo");
+            salida = new CriterioAnd(salida, new CriterioPrecio(sc1.nextDouble()));
+        }
+
+        System.out.println("Desea ver los viajes disponibles en los que su hora de salida este dentro de un margen especifico?(s/n)");
+        if (sc1.nextLine().equals("s")){
+            System.out.println("Ingrese la hora de salida mas temprana. (HH:mm)");
+            String horaIngresada = sc1.nextLine();
+            LocalTime horaSalida1 = LocalTime.parse(horaIngresada);
+            System.out.println("Ingrese la hora de salida mas tardia. (HH:mm)");
+            horaIngresada = sc1.nextLine();
+            LocalTime horaSalida2= LocalTime.parse(horaIngresada);
+
+            salida = new CriterioAnd(salida, new CriterioHoraSalida(horaSalida1, horaSalida2));
+        }
+
+
+        System.out.println("Desea ver los viajes disponibles en los que su hora de llegada este dentro de un margen especifico?(s/n)");
+        if (sc1.nextLine().equals("s")){
+            System.out.println("Ingrese la hora de llegada mas temprana. (HH:mm)");
+            String horaIngresada = sc1.nextLine();
+            LocalTime horaLlegada1 = LocalTime.parse(horaIngresada);
+            System.out.println("Ingrese la hora de llegada mas tardia. (HH:mm)");
+            horaIngresada = sc1.nextLine();
+            LocalTime horaLlegada2 = LocalTime.parse(horaIngresada);
+            salida = new CriterioAnd(salida, new CriterioHoraLlegada(horaLlegada1, horaLlegada2));
+        }
 
         return salida;
     }
-    public Viaje SeleccionarViaje(ArrayList<Viaje> listaParaSeleccion){
+    
+    public Viaje seleccionarViaje(ArrayList<Viaje> listaParaSeleccion){
         for (int i = 0; i < listaParaSeleccion.size(); i++){
             Viaje aux = listaParaSeleccion.get(i);
             System.out.println((i+1)+". Empresa: "+aux.getEmpresa()+
@@ -179,7 +213,7 @@ public class Sistema {
         }
         return null;
     }
-    public ArrayList<Asiento> SeleccionarAsientos(Viaje viajeS) {
+    public ArrayList<Asiento> seleccionarAsientos(Viaje viajeS) {
         Omnibus omnibusAux = viajeS.getOmnibus();
         ArrayList<Asiento> asientosSeleccionados = null;
         if (omnibusAux != null) {
@@ -188,7 +222,7 @@ public class Sistema {
         }
         return asientosSeleccionados;
     }
-        public ArrayList<Viaje> MostrarViajesCoincidentes(String origen, String destino, LocalDate fecha, Criterio cc){
+        public ArrayList<Viaje> mostrarViajesCoincidentes(String origen, String destino, LocalDate fecha, Criterio cc){
         //Dado un origen, un destino, una fecha y un criterio se devuelve una lista de los viajes que coincidan con los datos
             ArrayList<Viaje> salida = new ArrayList<Viaje>();
 
@@ -205,64 +239,6 @@ public class Sistema {
                 }
             }
             return salida;
-        }
-        public ArrayList<Viaje> FiltrarViajesCoincidentes(ArrayList<Viaje> coincidantes){
-            ArrayList<Viaje> coincidentesFiltrado = new ArrayList<Viaje>();
-            Scanner sc1 = new Scanner(System.in);
-            String empresa = null;
-            double precio = 0.0;
-            LocalTime horaSalida1 = null;
-            LocalTime horaSalida2 = null;
-            LocalTime horaLlegada1 = null;
-            LocalTime horaLlegada2 = null;
-            System.out.println("Desea ver los viajes disponibles de una empresa especifica?(s/n)");
-            String rta = sc1.nextLine();
-            if (rta.equals("s")){
-                System.out.println("Ingrese la empresa deseada");
-                empresa = sc1.nextLine();
-            }
-            Criterio c1 = new CriterioEmpresa(empresa);
-
-            System.out.println("Desea ver los viajes disponibles menor a algun costo especifico?(s/n)");
-                rta = sc1.nextLine();
-            if (rta.equals("s")){
-                 System.out.println("Ingrese el monto maximo");
-                 precio = sc1.nextDouble();
-            }
-            Criterio c2 = new CriterioPrecio(precio);
-            Scanner sc2 = new Scanner(System.in);
-            System.out.println("Desea ver los viajes disponibles en los que su hora de salida este dentro de un margen especifico?(s/n)");
-                rta = sc2.nextLine();
-            if (rta.equals("s")){
-                 System.out.println("Ingrese la hora de salida mas temprana. (HH:mm)");
-                 String horaIngresada = sc2.nextLine();
-                 horaSalida1 = LocalTime.parse(horaIngresada);
-                 System.out.println("Ingrese la hora de salida mas tardia. (HH:mm)");
-                 horaIngresada = sc2.nextLine();
-                 horaSalida2 = LocalTime.parse(horaIngresada);
-            }
-            Criterio c3 = new CriterioHoraSalida(horaSalida1,horaSalida2);
-
-            System.out.println("Desea ver los viajes disponibles en los que su hora de llegada este dentro de un margen especifico?(s/n)");
-                rta = sc2.nextLine();
-            if (rta.equals("s")){
-                 System.out.println("Ingrese la hora de llegada mas temprana. (HH:mm)");
-                 String horaIngresada = sc2.nextLine();
-                 horaLlegada1 = LocalTime.parse(horaIngresada);
-                 System.out.println("Ingrese la hora de llegada mas tardia. (HH:mm)");
-                 horaIngresada = sc2.nextLine();
-                 horaLlegada2 = LocalTime.parse(horaIngresada);
-            }
-            Criterio c4 = new CriterioHoraLlegada(horaLlegada1,horaLlegada2);
-
-            Viaje aux = null;
-            for(int i = 0; i < coincidantes.size(); i++){
-                aux = coincidantes.get(i);
-                if (c1.seCumple(aux) && c2.seCumple(aux) && c3.seCumple(aux) && c4.seCumple(aux)){ 
-                    coincidentesFiltrado.add(aux);
-                }
-            }
-            return coincidentesFiltrado;
         }
 
         public void suscribirseViajesImprovisados(Pasajero pasajero){
