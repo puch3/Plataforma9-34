@@ -132,29 +132,44 @@ public class Sistema {
     public void ComprarPasaje(Pasajero comprador){
     //El usuario ingresa los datos, se muestran los pasajes disponibles y se confirma o no la compra
         ArrayList<String> datos  = this.cargarDatosCompra();
-        LocalDate fecha = LocalDate.of(Integer.parseInt(datos.get(2)),
+        LocalDate fecha = LocalDate.of(Integer.parseInt(datos.get(4)),
                 Integer.parseInt(datos.get(3)),
-                Integer.parseInt(datos.get(4)));
+                Integer.parseInt(datos.get(2)));
+
 
         Criterio cc = armarFiltro();
 
         ArrayList<Viaje> coincidentes = mostrarViajesCoincidentes(datos.get(0), datos.get(1), fecha, cc);
 
         if (coincidentes.size() > 0) {
-            System.out.println(coincidentes);
             Viaje viaje = seleccionarViaje(coincidentes);
             ArrayList<Asiento> asientos = seleccionarAsientos(viaje);
+
+            //ya se pude pasar a confirmar la compra, marcar los aientos como ocupados
+            if(compraConfirmada()) {
+                //se hace el pago
+                //se da opcion a suscribir usuario
+            }else {
+                //desocupar asientos
+                for(int i=0; i<asientos.size(); i++){
+                    asientos.get(i).desocuparAsiento();
+                }
+            }
         }else{System.out.println("No se encontraron viajes coincidentes");}
 
-        //logica para seleccionar y comprar un pasaje
-        //cuando este el viaje comprado
-        //dar la opcion de suscribirse con ese viaje
-        //...
     }
+
+    public boolean compraConfirmada(){
+        //Confirma (o no) la compra, se carga el pago en la tarjeta de credito
+
+        return true;
+    }
+
     public ArrayList<Pasaje> armarPasajes(ArrayList<Asiento> asientos, Viaje viaje,Pasajero comprador){
         Scanner sc1 = new Scanner(System.in);
         String dniIngresado = null;
         ArrayList<Pasaje> pasajes = new ArrayList<>();
+
         if (asientos.size() > 1){
             for (int i = 0; i < asientos.size();i++) {
                 System.out.println("Ingrese el documento para el asiento nro: " + asientos.get(i).getNumeroDeAsiento());
@@ -172,7 +187,8 @@ public class Sistema {
         }
         return pasajes;
     }
-    public static Pasaje VerificarDni(String dniIngresado){
+    public Pasaje VerificarDni(String dniIngresado){
+
         for (int i = 0; i < pasajeros.size(); i++) {
             Pasajero pasajeroAux = pasajeros.get(i);
             if (pasajeroAux.getDni().equals(dniIngresado)) {
@@ -238,9 +254,7 @@ public class Sistema {
     public Viaje seleccionarViaje(ArrayList<Viaje> listaParaSeleccion){
         for (int i = 0; i < listaParaSeleccion.size(); i++){
             Viaje aux = listaParaSeleccion.get(i);
-            System.out.println((i+1)+". Empresa: "+aux.getEmpresa()+
-                    ", Hora de salida: "+aux.getHoraSalida()+
-                    ", Hora de llegada: "+aux.getHoraLlegada());
+            System.out.println((i+1) + ". " + listaParaSeleccion.get(i));
         }
         System.out.println("Seleccione un viaje (ingrese el numero)");
         Scanner sc1 = new Scanner(System.in);
@@ -342,7 +356,7 @@ public class Sistema {
 
             plataforma.suscribirseViajesImprovisados(p1);
 
-            plataforma.notificarViaje(v1);
+            //plataforma.notificarViaje(v1);
             plataforma.ComprarPasaje(p3);
         }
     }

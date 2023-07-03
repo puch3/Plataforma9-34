@@ -2,6 +2,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Pasaje {
+    private static int idSuma = 0;
+    private int id;
     private String nombre;
     private String apellido;
     private int nroAsiento;
@@ -12,6 +14,8 @@ public class Pasaje {
     public Pasaje(String nombre, String apellido){
         this.nombre = nombre;
         this.apellido = apellido;
+        idSuma++;
+        this.id = idSuma;
     }
     public void setNroAsiento(int n){
         this.nroAsiento = n;

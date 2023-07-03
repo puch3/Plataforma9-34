@@ -48,4 +48,8 @@ public class Asiento {
         pasajero = null;
     }
 
+    @Override
+    public String toString() {
+        return "[" + this.numeroDeAsiento + "] ";
+    }
 }

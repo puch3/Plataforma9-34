@@ -40,8 +40,9 @@ public class Viaje {
 	}
 	
 	public String toString() {
-		return "Viaje [fecha=" + fecha + ", origen=" + origen + ", destino=" + destino + ", empresa=" + this.omnibus.getEmpresa()
-				+ ", precio=" + precio + ", asientos disponibles=" + (this.omnibus.getCapacidad()-this.pasajeros.size()) + "]";
+		return "Empresa: "+ this.getEmpresa()+
+				", Hora de salida: "+ this.getHoraSalida()+
+				", Hora de llegada: "+ this.getHoraLlegada() + "\n";
 	}
 
 	public LocalDateTime getFecha() {
@@ -102,4 +103,5 @@ public class Viaje {
 	public String getHoraLlegada(){
 		return this.fechaLlegada.getHour() + ":" + this.fechaLlegada.getMinute();
 	}
+
 }

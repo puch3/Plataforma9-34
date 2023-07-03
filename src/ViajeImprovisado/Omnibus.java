@@ -80,9 +80,11 @@ public class Omnibus {
 	public ArrayList<Asiento> seleccionarAsientos() {
 		ArrayList<Asiento> asientosSeleccionados = new ArrayList<Asiento>();
 		Scanner scA = new Scanner(System.in);
+
 		System.out.print("Seleccione el/los asiento/s deseado/s (numero-numero)");
 		String in = scA.nextLine();
 		String[] numerosAsientos = in.split("-");
+
 		for (String numero : numerosAsientos) {
 			int numeroAsiento = Integer.parseInt(numero);
 			if ((numeroAsiento)<=asientos.size()) {
