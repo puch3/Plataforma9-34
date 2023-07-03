@@ -151,7 +151,40 @@ public class Sistema {
         //dar la opcion de suscribirse con ese viaje
         //...
     }
-
+    public ArrayList<Pasaje> armarPasajes(ArrayList<Asiento> asientos, Viaje viaje){
+        Scanner sc1 = new Scanner(System.in);
+        String dniIngresado = null;
+        ArrayList<Pasaje> pasajes = new ArrayList<>();
+        if (asientos.size() > 1){
+            for (int i = 0; i < asientos.size();i++) {
+                System.out.println("Ingrese el documento para el asiento nro: " + asientos.get(i).getNumeroDeAsiento());
+                dniIngresado = sc1.nextLine();
+                Pasaje nuevoPasaje = this.VerificarDni(dniIngresado);
+                nuevoPasaje.completarDatos(asientos.get(i).getNumeroDeAsiento(),viaje.getPrecio(), viaje.getOrigen(),viaje.getFecha(),viaje.getEmpresa());
+                pasajes.add(nuevoPasaje);
+            }
+        }
+        return pasajes;
+    }
+    public static Pasaje VerificarDni(String dniIngresado){
+        for (int i = 0; i < pasajeros.size(); i++) {
+            Pasajero pasajeroAux = pasajeros.get(i);
+            if (pasajeroAux.getDni().equals(dniIngresado)) {
+                Pasaje pasajeNuevo = new Pasaje(pasajeroAux.getNombre(), pasajeroAux.getApellido());
+                //notificar pasajero.
+                return pasajeNuevo;
+            }
+        }
+        Scanner sc1 = new Scanner(System.in);
+        String nombre = null;
+        String apellido = null;
+        System.out.println("Ingrese el nombre del nuevo Pasajero ");
+        nombre = sc1.nextLine();
+        System.out.println("Ingrese el apellido del nuevo Pasajero ");
+        apellido = sc1.nextLine();
+        Pasaje pasajeNuevo = new Pasaje(nombre,apellido);
+        return pasajeNuevo;
+    }
     public Criterio armarFiltro(){
         Criterio salida = new CriterioTrue();
 
