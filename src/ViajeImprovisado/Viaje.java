@@ -42,7 +42,7 @@ public class Viaje {
 	public String toString() {
 		return "Empresa: "+ this.getEmpresa()+
 				", Hora de salida: "+ this.getHoraSalida()+
-				", Hora de llegada: "+ this.getHoraLlegada() + "\n";
+				", Hora de llegada: "+ this.getHoraLlegada();
 	}
 
 	public LocalDateTime getFecha() {

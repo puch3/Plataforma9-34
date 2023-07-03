@@ -150,30 +150,40 @@ public class Sistema {
 
                 asignarAsientos(asientos, comprador);
                 //ya se pude pasar a confirmar la compra, marcar los aientos como ocupados
-                if (compraConfirmada()) {
+                if (compraConfirmada(viaje, asientos)) {
                     //se hace el pago
                     //se da opcion a suscribir usuario
                 } else {
-                    //desocupar asientos
+                    //venta cancelada -> desocupar asientos
                     for (int i = 0; i < asientos.size(); i++) {
                         asientos.get(i).desocuparAsiento();
                     }
                 }
             }
-        }else{System.out.println("No se encontraron viajes coincidentes");}
+        }else{System.out.println("No se encontraron viajes coincidentes!");}
 
     }
 
-    public boolean compraConfirmada(){
+    public boolean compraConfirmada(Viaje v, ArrayList<Asiento> aa){
         //Confirma (o no) la compra, se carga el pago en la tarjeta de credito
+        Scanner sc = new Scanner(System.in);
 
-        return true;
+        //mostrar resumen venta
+        System.out.println(v);
+        System.out.println("Asientos: ");
+        for(int i = 0; i < aa.size(); i++){
+            System.out.println(aa.get(i));
+        }
+
+        System.out.println("\nDesea confirmar la compra? (s/n): ");
+        return sc.nextLine().equals('s');
     }
 
     public void asignarAsientos(ArrayList<Asiento> asientos, Pasajero comprador){
         Scanner sc1 =new Scanner(System.in);
 
-        asientos.get(0).setPasajero(comprador); //Se asigna el primer asiento seleccionado al usuario que esta logeado
+        if (!asientos.isEmpty())
+            asientos.get(0).setPasajero(comprador); //Se asigna el primer asiento seleccionado al usuario que esta logeado
 
         if(asientos.size() > 1){
             for(int i=1; i<asientos.size(); i++){
@@ -187,8 +197,9 @@ public class Sistema {
     public Pasajero verificarDni(String dniIngresado){
 
         for (int i = 0; i < pasajeros.size(); i++) {
-           if( pasajeros.get(i).getDni().equals(dniIngresado) )
-               return pasajeros.get(i);
+            Usuario u = pasajeros.get(i);
+           if( u.getDni().equals(dniIngresado) )
+               return u;
         }
         Scanner sc1 = new Scanner(System.in);
 

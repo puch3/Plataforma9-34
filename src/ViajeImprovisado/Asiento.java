@@ -50,6 +50,12 @@ public class Asiento {
 
     @Override
     public String toString() {
-        return "[" + this.numeroDeAsiento + "] ";
+        if(this.pasajero != null) {
+            return "asiento [" + this.numeroDeAsiento + "]  asignado a "
+                    + this.pasajero.getApellido() + ", " + this.pasajero.getApellido() +
+                    " con DNI= " + this.pasajero.getDni();
+        }else{
+            return "asiento[" + this.numeroDeAsiento + "] libre";
+        }
     }
 }
