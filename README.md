@@ -1,4 +1,8 @@
 # Plataforma9-34
+
+Confluence: https://grupo16-mds-sistemas-2023.atlassian.net/wiki/spaces/G1P92/overview
+Jira:  https://grupo16-mds-sistemas-2023.atlassian.net/jira/software/projects/G1P932/boards/1
+
 La empresa Plataforma 9-3/4 desea implementar una herramienta en línea para la venta de 
 pasajes de ómnibus de larga distancia y nos ha encargado su desarrollo.
 Para poder usar el sitio, y cumpliendo con las reglamentaciones de la Comisión Nacional de 
